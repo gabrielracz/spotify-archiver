@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const fs = require('fs')
+const path = require('path')
 const https = require('https')
 const querystring = require('querystring');
 
@@ -8,8 +9,8 @@ var print_album = false
 var list_playlists = false
 
 
-var client_secret = fs.readFileSync('.secret-client', 'utf8').trim();
-var client_id = fs.readFileSync('.secret-id', 'utf8').trim();
+var client_secret = fs.readFileSync(path.resolve(__dirname, '.secret-client'), 'utf8').trim();
+var client_id = fs.readFileSync(path.resolve(__dirname, '.secret-id'), 'utf8').trim();
 
 const authData = querystring.stringify({
   grant_type: 'client_credentials'
