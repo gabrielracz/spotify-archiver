@@ -9,8 +9,8 @@ var print_album = false
 var list_playlists = false
 
 
-var client_secret = fs.readFileSync(path.resolve(__dirname, '.secret-client'), 'utf8').trim();
-var client_id = fs.readFileSync(path.resolve(__dirname, '.secret-id'), 'utf8').trim();
+var client_secret = fs.readFileSync(path.resolve(__dirname, '.client-secret'), 'utf8').trim();
+var client_id = fs.readFileSync(path.resolve(__dirname, '.client-id'), 'utf8').trim();
 
 const authData = querystring.stringify({
   grant_type: 'client_credentials'
@@ -109,15 +109,15 @@ function printAllPlaylists(username, playlists) {
     max_name = clamp(max_name, title_str.length + padding, 10000)
     function line() {
 		line_str = '+' + '-'.repeat(max_name + padding + 1) + '+'
-        console.log(line_str)
+        process.stdout.write(line_str + "\n")
     }
     line()
     // let title_str = '| ' + username + "'s Playlists".padEnd(max_name + padding) + '|'
-    console.log("| " + title_str.padEnd(max_name + padding) + "|")
+    process.stdout.write("| " + title_str.padEnd(max_name + padding) + "|\n")
     line()
     playlists.forEach(item => {
         let playlist_str = "| " + item.name.padEnd(max_name + padding) + "|"
-        console.log(playlist_str)
+        process.stdout.write(playlist_str+"\n")
     });
     line()
 }
@@ -196,7 +196,7 @@ function printPlaylist(playlistName, playlistList) {
 		if(print_album) {
 			line_str += '-'.repeat(max_album + padding + 1) + '+'
 		}
-        console.log(line_str)
+        process.stdout.write(line_str+"\n")
     }
     
     line()
@@ -204,7 +204,7 @@ function printPlaylist(playlistName, playlistList) {
 	if(print_album) {
 		title_str += "Album".padEnd(max_album + padding) + '|'
 	}
-    console.log(title_str)
+    process.stdout.write(title_str+"\n")
 
     line()
     playlistList.forEach(item => {
@@ -214,7 +214,7 @@ function printPlaylist(playlistName, playlistList) {
 		if(print_album){
 			track_str += toAsciiString(item.track.album.name).padEnd(max_album + padding) + '|'
 		}
-        console.log(track_str)
+        process.stdout.write(track_str+"\n")
     });
     line()
 }
