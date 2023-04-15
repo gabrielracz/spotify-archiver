@@ -76,6 +76,9 @@ async function findPlaylistId(user, playlist, token) {
 
         res.on('end', () => {
             let playlist_response = JSON.parse(data)
+            if (!playlist_response || !playlist_response.items) {
+                process.stdout.write(`Could not find playlist '${playlist}' from user '${user}'\n`)
+            }
             let found = false
             if(list_playlists) {
                 printAllPlaylists(user, playlist_response.items)
