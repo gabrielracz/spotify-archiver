@@ -7,6 +7,7 @@ const querystring = require('querystring');
 
 var print_album = false
 var list_playlists = false
+var ascii_mode = true;
 
 
 var client_secret = fs.readFileSync(path.resolve(__dirname, '.client-secret'), 'utf8').trim();
@@ -87,6 +88,8 @@ async function findPlaylistId(user, playlist, token) {
                 }
             });
             if(!found) {
+                process.stdout.write(`Could not find playlist '${playlist}' from user '${user}'\n`)
+                process.exit(0)
                 reject(`Could not find playlist '${playlist}' from user '${user}'`)
             } 
         });
@@ -116,7 +119,7 @@ function printAllPlaylists(username, playlists) {
     process.stdout.write("| " + title_str.padEnd(max_name + padding) + "|\n")
     line()
     playlists.forEach(item => {
-        let playlist_str = "| " + item.name.padEnd(max_name + padding) + "|"
+        let playlist_str = "| " + toAsciiString(item.name).padEnd(max_name + padding) + "|"
         process.stdout.write(playlist_str+"\n")
     });
     line()
@@ -230,7 +233,9 @@ function parseArgs() {
 				print_album = true
 			}else if(option == "--list") {
 				list_playlists = true
-			} else {
+            }else if(option == "--ascii") {
+                ascii_mode = true
+            } else {
                 playlist = process.argv[3].replace(/['"]+/g, '');
             }
 		}
@@ -264,6 +269,7 @@ String.prototype.latinize=String.prototype.latinise;
 String.prototype.isLatin=function(){return this==this.latinise()}
 
 function toAsciiString(str) {
+    if(!ascii_mode) {return str}
   str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
   // Translate punctuation that looks the same as ASCII punctuation to their ASCII equivalents
