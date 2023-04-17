@@ -1,5 +1,6 @@
 # spotify-archiver
-Create ascii tables for public spotify playlsts.
+Create ascii tables for public spotify playlsts. \
+Live demo at [https://gsracz.com/spotify-archiver.html](https://gsracz.com/spotify-archiver.html)
 
 ## Instructions
 - Have Node.js installed
